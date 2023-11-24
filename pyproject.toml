@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "mal-organizer"
+version = "0.0.1"
+description = "A CLI tool to organize your MyAnimeList collection"
+license = "GPL-3.0-only"
+authors = ["Alejandro González Momblán <agelrenorenardo@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/yisuschrist/mal-organizer"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+tqdm = "^4.66.1"
+malclient-upgraded = "^1.3.3"
+rich = "^13.7.0"
+rich-argparse-plus = "^0.3.1.4"
+platformdirs = "^4.0.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.5.1"
+pylint = "^2.17.7"
+bandit = "^1.7.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

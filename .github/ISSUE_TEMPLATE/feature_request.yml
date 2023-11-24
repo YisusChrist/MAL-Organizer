@@ -2,13 +2,13 @@ name: 🚀 Feature request
 description: Suggest a feature/idea for this project 💡
 labels: ["feature"]
 assignees:
-  - [YOUR NAME]
+  - YisusChrist
 body:
   - type: markdown
     attributes:
       value: |
         ## Self Check
-        - Look for similar features in existing [GitHub Issues](https://github.com/[YOUR NAME]/[YOUR PROJECT]/issues?q=is%3Aissue) (open or closed).
+        - Look for similar features in existing [GitHub Issues](https://github.com/YisusChrist/MAL-Organizer/issues?q=is%3Aissue) (open or closed).
   - type: textarea
     attributes:
       label: If the feature solves a problem you have, specify it here.

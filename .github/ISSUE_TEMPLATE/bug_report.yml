@@ -2,14 +2,14 @@ name: 🐛 Report a bug
 description: Create a report to help us improve 🤕
 labels: ["bug"]
 assignees:
-  - [YOUR NAME]
+  - YisusChrist
 body:
   - type: markdown
     attributes:
       value: |
         ## Self Check
-        - Look for similar errors in existing [GitHub Issues](https://github.com/[YOUR NAME]/[YOUR PROJECT]/issues?q=is%3Aissue) (open or closed).
-        - Take a look at the [documentation](https://github.com/[YOUR NAME]/[YOUR PROJECT]/wiki) for help.
+        - Look for similar errors in existing [GitHub Issues](https://github.com/YisusChrist/MAL-Organizer/issues?q=is%3Aissue) (open or closed).
+        - Take a look at the [documentation](https://github.com/YisusChrist/MAL-Organizer/wiki) for help.
   - type: textarea
     validations:
       required: true
@@ -49,8 +49,8 @@ body:
     validations:
       required: true
     attributes:
-      label: [YOUR PROJECT] version
-      description: Run `[YOUR PROJECT] -v` to check.
+      label: MAL-Organizer version
+      description: Run `mal-organizer -V` to check.
       placeholder: "1.0"
   - type: textarea
     attributes:
