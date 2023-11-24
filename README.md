@@ -48,7 +48,7 @@ MAL-Organizer is a project that helps you organize and manage your anime watchli
 
 - [Requirements](#requirements)
 - [Installation](#installation)
-  - [Manual installation](#manual-installation)
+    - [Manual installation](#manual-installation)
 - [Execution](#execution)
 - [Contributors](#contributors)
   - [How do I contribute to MAL-Organizer?](#how-do-i-contribute-to-mal-organizer)
@@ -85,10 +85,10 @@ MAL-Organizer can be installed easily as a Pypi package. Just run the following 
 pip3 install mal-organizer
 ```
 
-> For best practices and to avoid potential conflicts with your global Python environment, it is strongly recommended to install this program within a virtual environment. Avoid using the --user option for global installations. We highly recommend using [pipx](https://pypi.org/project/pipx/) for a safe and isolated installation experience. Therefore, the appropriate command to install iltransfer would be:
+> For best practices and to avoid potential conflicts with your global Python environment, it is strongly recommended to install this program within a virtual environment. Avoid using the --user option for global installations. We highly recommend using [pipx](https://pypi.org/project/pipx/) for a safe and isolated installation experience. Therefore, the appropriate command to install MAL-Organizer would be:
 >
 > ```bash
-> pipx install iltransfer
+> pipx install mal-organizer
 > ```
 
 #### Manual installation
