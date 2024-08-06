@@ -1,43 +1,58 @@
 # Adapted from https://github.com/Textualize/frogmouth/blob/main/Makefile
 ##############################################################################
-# Common make values.
+# Path of every file type (. by default if you want it in the current directory)
+SRC_DIR     := src
+TEST_DIR    := tests
+DOC_DIR     := docs
+
+# Common commands
+RUN         := poetry run
+PYTHON      := $(RUN) python
+LINT        := $(RUN) pylint
+MYPY        := $(RUN) mypy
+BLACK       := $(RUN) black
+ISORT       := $(RUN) isort
+BANDIT      := $(RUN) bandit
+MONKEY      := $(RUN) monkeytype
+TEST        := $(RUN) pytest
+PYRE        := $(RUN) pyre
+
+# Documentation settings
+DOCSRC      := $(DOC_DIR)/source
+BUILDDIR    := $(DOC_DIR)/build/html
+SPHINXOPTS  := # Add your Sphinx options here
+
+# Package Settings
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
-package     := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
-# Replace "-" with "_" in the package name
-package     := $(shell echo $(package) | tr - _)
-run         := poetry run
-python      := $(run) python
-lint        := $(run) pylint
-mypy        := $(run) mypy
-black       := $(run) black
-isort       := $(run) isort
-bandit      := $(run) bandit
-monkey      := $(run) monkeystype
-pytest      := $(run) pytest
-pyre        := $(run) pyre
 
-DOCDIR      := docs
-DOCSRC      := $(DOCDIR)/source
-BUILDDIR    := $(DOCDIR)/build/html
-SPHINXOPTS  :=
+# Calculate the initial package name from the directory name
+initial_package := $(subst -,_,$(notdir $(patsubst %/,%,$(dir $(mkfile_path)))))
 
+# Detect if src folder exists
+src_folder_exists := $(wildcard $(SRC_DIR))
+
+ifeq ($(src_folder_exists),)
+    # If src folder doesn't exist, use the initial package name
+    PACKAGE := $(initial_package)
+else
+    # If src folder exists, use the initial package name with src/ prefix
+    PACKAGE := $(addprefix $(SRC_DIR)/,$(initial_package))
+endif
+
+MODULE := $(subst /,.,$(PACKAGE))
 
 ##############################################################################
 # Methods of running the application.
 .PHONY: run
 run:				# Run the application
-	$(python) -m $(package)
-
-.PHONY: debug
-debug:				# Run the application in debug mode
-	TEXTUAL=devtools make run
+	$(RUN) $(PACKAGE)
 
 ##############################################################################
 # Setup/update packages the system requires.
 .PHONY: setup
 setup:				# Set up the development environment
 	poetry install
-	$(run) pre-commit install
+	$(RUN) pre-commit install
 
 .PHONY: update
 update:				# Update the development environment
@@ -54,14 +69,24 @@ clean:				# Clean up the package builds
 	rm -rf dist
 
 ##############################################################################
+# Package publishing.
+.PHONY: publish
+publish:			# Publish the package to PyPI
+	poetry publish --build
+
+.PHONY: publish-test
+publish-test:		# Publish the package to TestPyPI
+	poetry publish --build -r testpypi
+
+##############################################################################
 # Reformatting tools.
 .PHONY: black
 black:				# Run black over the code
-	$(black) $(package)
+	$(BLACK) $(PACKAGE)
 
 .PHONY: isort
 isort:				# Run isort over the code
-	$(isort) $(package)
+	$(ISORT) $(PACKAGE)
 
 .PHONY: reformat
 reformat: isort black		# Run all the formatting tools over the code
@@ -69,7 +94,7 @@ reformat: isort black		# Run all the formatting tools over the code
 ##############################################################################
 # Documentation.
 doc:                # Build the documentation
-	sphinx-quickstart "$(DOCDIR)"
+	sphinx-quickstart "$(DOC_DIR)"
 
 apidoc:             # Build the API documentation
 	sphinx-apidoc -o "$(DOCSRC)" .
@@ -84,27 +109,27 @@ livehtml:           # Run a live-updating HTML server for the documentation
 # Checking/testing/linting/etc.
 .PHONY: lint
 lint:				# Run Pylint over the library
-	$(lint) $(package)
+	$(LINT) $(PACKAGE)
 
 .PHONY: typecheck
 typecheck:			# Perform static type checks with mypy
-	$(mypy) --scripts-are-modules $(package)
+	$(MYPY) --scripts-are-modules $(PACKAGE)
 
 .PHONY: stricttypecheck
 stricttypecheck:	# Perform strict static type checks with mypy
-	$(mypy) --scripts-are-modules --strict $(package)
+	$(MYPY) --scripts-are-modules --strict $(PACKAGE)
 
 .PHONY: bandit
 bandit:				# Run bandit over the code
-	$(bandit) -r $(package)
+	$(BANDIT) -r $(PACKAGE)
 
 .PHONY: monkey
 monkey:				# Run monkeytype over the code
-	$(monkey) apply $(package)
+	$(MONKEY) apply $(PACKAGE)
 
 .PHONY: test
 test:				# Run the unit tests
-	$(pytest) tests
+	$(TEST) $(TEST_DIR)
 
 .PHONY: checkall
 checkall: lint stricttypecheck bandit # Check all the things
@@ -113,7 +138,7 @@ checkall: lint stricttypecheck bandit # Check all the things
 # Utility.
 .PHONY: repl
 repl:				# Start a Python REPL
-	$(python)
+	$(PYTHON)
 
 .PHONY: shell
 shell:				# Create a shell within the virtual environment
