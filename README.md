@@ -24,11 +24,11 @@
 <br>
 
 <p align="center">
-    <a href="https://github.com/YisusChrist/MAL-Organizer/issues/new/choose">Report Bug</a>
+    <a href="https://github.com/YisusChrist/MAL-Organizer/issues/new?assignees=YisusChrist&labels=bug&projects=&template=bug_report.yml">Report Bug</a>
     ·
-    <a href="https://github.com/YisusChrist/MAL-Organizer/issues/new/choose">Request Feature</a>
+    <a href="https://github.com/YisusChrist/MAL-Organizer/issues/new?assignees=YisusChrist&labels=feature&projects=&template=feature_request.yml">Request Feature</a>
     ·
-    <a href="https://github.com/YisusChrist/MAL-Organizer/discussions">Ask Question</a>
+    <a href="https://github.com/YisusChrist/MAL-Organizer/issues/new?assignees=YisusChrist&labels=question&projects=&template=question.yml">Ask Question</a>
     ·
     <a href="https://github.com/YisusChrist/MAL-Organizer/security/policy#reporting-a-vulnerability">Report security bug</a>
 </p>
@@ -39,7 +39,7 @@
 
 <br>
 
-MAL-Organizer is a project that helps you organize and manage your anime watchlist on MyAnimeList. It allows you to easily add, remove, and update your anime list from the command line.
+`MAL-Organizer` is a project that helps you organize and manage your anime watchlist on MyAnimeList. It allows you to easily add, remove, and update your anime list from the command line.
 
 <br>
 
@@ -48,8 +48,10 @@ MAL-Organizer is a project that helps you organize and manage your anime watchli
 
 - [Requirements](#requirements)
 - [Installation](#installation)
-    - [Manual installation](#manual-installation)
-- [Execution](#execution)
+  - [From PyPI](#from-pypi)
+  - [Manual installation](#manual-installation)
+  - [Uninstall](#uninstall)
+- [Usage](#usage)
 - [Contributors](#contributors)
   - [How do I contribute to MAL-Organizer?](#how-do-i-contribute-to-mal-organizer)
 - [License](#license)
@@ -67,64 +69,68 @@ Here's a breakdown of the packages needed and their versions:
 - [rich](https://pypi.org/project/rich) (version 13.7.0)
 - [tqdm](https://pypi.org/project/tqdm/) (version 4.66.1)
 
-These packages can be installed using the following command:
-
-```bash
-pip3 install -r requirements.txt
-```
-
-This will install all the packages and their dependencies listed in the requirements.
-
-> Note: Something important to say, e.g. your code version.
+> [!NOTE]
+> The software has been developed and tested using Python `3.12.1`. The minimum required version to run the software is Python 3.6. Although the software may work with previous versions, it is not guaranteed.
 
 ## Installation
 
-MAL-Organizer can be installed easily as a Pypi package. Just run the following command:
+### From PyPI
+
+`MAL-Organizer` can be installed easily as a PyPI package. Just run the following command:
 
 ```bash
-pip3 install mal-organizer
+pip3 install mal_organizer
 ```
 
-> For best practices and to avoid potential conflicts with your global Python environment, it is strongly recommended to install this program within a virtual environment. Avoid using the --user option for global installations. We highly recommend using [pipx](https://pypi.org/project/pipx/) for a safe and isolated installation experience. Therefore, the appropriate command to install MAL-Organizer would be:
+> [!IMPORTANT]
+> For best practices and to avoid potential conflicts with your global Python environment, it is strongly recommended to install this program within a virtual environment. Avoid using the --user option for global installations. We highly recommend using [pipx](https://pypi.org/project/pipx) for a safe and isolated installation experience. Therefore, the appropriate command to install `mal_organizer` would be:
 >
 > ```bash
-> pipx install mal-organizer
+> pipx install mal_organizer
 > ```
 
-#### Manual installation
+The program can now be ran from a terminal with the `mal_organizer` command.
+
+### Manual installation
 
 If you prefer to install the program manually, follow these steps:
 
-> Note: This will install the version from the latest commit, not the latest release.
+> [!WARNING]
+> This will install the version from the latest commit, not the latest release.
 
-1. Download the latest version of [MAL-Organizer](https://github.com/YisusChrist/MAL-Organizer) from this repository:
+1. Download the latest version of [mal_organizer](https://github.com/YisusChrist/mal_organizer) from this repository:
+
+   ```bash
+   git clone https://github.com/YisusChrist/mal_organizer
+   cd mal_organizer
+   ```
+
+2. Install the package:
+
+   ```bash
+   poetry install
+   ```
+
+3. Run the program:
+
+   ```bash
+   poetry run mal_organizer
+   ```
+
+### Uninstall
+
+If you installed it from PyPI, you can use the following command:
 
 ```bash
-git clone https://github.com/YisusChrist/MAL-Organizer
-cd MAL-Organizer
+pipx uninstall mal_organizer
 ```
 
-2. Install the dependencies:
-
-```bash
-pip3 install -r requirements.txt
-```
-
-3. Run the following commands to install MAL-Organizer in your `/usr/bin/` directory:
-
-```bash
-sudo chmod +x mal-organizer
-sudo cp mal-organizer /usr/bin/
-```
-
-The program can now be ran from a terminal with the `mal-organizer` command.
-
-## Execution
+## Usage
 
 To run the `mal-organizer` script, you can use the following command:
 
 ```bash
-mal-organizer [OPTIONS] ...
+mal_organizer [OPTIONS] ...
 ```
 
 where `[OPTIONS]` are the command line options described below:
@@ -147,4 +153,4 @@ See [Contributing](.github/CONTRIBUTING.md) for more details.
 
 ## License
 
-MAL-Organizer is released under the [GPL-3.0 license](https://opensource.org/licenses/GPL-3.0).
+`MAL-Organizer` is released under the [GPL-3.0 license](https://opensource.org/licenses/GPL-3.0).
