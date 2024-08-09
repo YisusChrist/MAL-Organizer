@@ -8,7 +8,7 @@ body:
     attributes:
       value: |
         ## Self Check
-        - Check the [documentation](https://github.com/YisusChrist/mal_organizer/wiki) and [GitHub Issues](https://github.com/YisusChrist/mal_organizer/issues?q=is%3Aissue) to see if your question has already been answered.
+        - Check the [documentation](https://github.com/YisusChrist/MAL-Organizer/wiki) and [GitHub Issues](https://github.com/YisusChrist/MAL-Organizer/issues?q=is%3Aissue) to see if your question has already been answered.
   - type: textarea
     validations:
       required: true

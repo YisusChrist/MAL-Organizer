@@ -50,7 +50,7 @@ body:
       required: true
     attributes:
       label: MAL-Organizer version
-      description: Run `mal-organizer -V` to check.
+      description: Run `mal_organizer -V` to check.
       placeholder: "1.0"
   - type: textarea
     attributes:
