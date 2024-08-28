@@ -1,12 +1,15 @@
 """Command-line interface for the project."""
+
 import sys
 from argparse import ArgumentParser, Namespace
 
 from rich import print  # pip install rich
-from rich_argparse_plus import RichHelpFormatterPlus  # pip install rich-argparse-plus
+from rich_argparse_plus import RichHelpFormatterPlus  # type: ignore
 
-from .consts import DESC, EXIT_FAILURE, LOG_PATH, NAME, VERSION
-from .logs import logger
+from mal_organizer.consts import EXIT_FAILURE, LOG_PATH, PACKAGE
+from mal_organizer.consts import __desc__ as DESC
+from mal_organizer.consts import __version__ as VERSION
+from mal_organizer.logs import logger
 
 
 def get_parsed_args() -> Namespace:
@@ -14,7 +17,7 @@ def get_parsed_args() -> Namespace:
     Parse and return command-line arguments.
 
     Returns:
-        The parsed arguments as an Namespace object.
+        argparse.Namespace: The parsed arguments.
     """
     RichHelpFormatterPlus.choose_theme("grey_area")
 
@@ -27,6 +30,25 @@ def get_parsed_args() -> Namespace:
 
     g_main = parser.add_argument_group("Main Options")
     # TODO: Add main options
+    g_main.add_argument(
+        "--command",
+        dest="command",
+        type=str,
+        help="The command to execute.",
+        choices=["get", "fields", "search", "update", "update-collection"],
+    )
+    g_main.add_argument(
+        "--name",
+        dest="name",
+        type=str,
+        help="The name of the anime to search for.",
+    )
+    g_main.add_argument(
+        "--id",
+        dest="id",
+        type=int,
+        help="The ID of the anime to search for.",
+    )
 
     g_misc = parser.add_argument_group("Miscellaneous Options")
     # Help
@@ -56,7 +78,7 @@ def get_parsed_args() -> Namespace:
         "--version",
         action="version",
         help="Show version number and exit.",
-        version=f"[argparse.prog]{NAME}[/] version [i]{VERSION}[/]",
+        version=f"[argparse.prog]{PACKAGE}[/] version [i]{VERSION}[/]",
     )
 
     return parser.parse_args()
