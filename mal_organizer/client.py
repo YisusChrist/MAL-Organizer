@@ -12,10 +12,9 @@ import malclient  # pip install malclient-upgraded
 from dotenv import load_dotenv  # pip install python-dotenv
 from tqdm import tqdm  # pip install tqdm
 
-from .logs import logger
+from mal_organizer.consts import EPISODE, SEASON
+from mal_organizer.logs import logger
 
-EPISODE = "Ep."
-SEASON = "S."
 
 pp = pprint.PrettyPrinter(
     width=200,
