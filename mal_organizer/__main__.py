@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Main module of the MAL-organizer package.
 
@@ -8,55 +6,79 @@ This module contains the main function of the package.
 Functions:
     main() -> int: Main function.
 """
-from argparse import Namespace
 
+import json
+from argparse import Namespace
+from pathlib import Path
+from typing import Any
+
+from malclient import MyAnimeListStatus  # type: ignore
 from rich import print  # pip install rich
 from rich.traceback import install  # pip install rich
 
-from .cli import exit_session, get_parsed_args
-from .client import MalClient
-from .config import load_config
-from .consts import DEBUG, EXIT_FAILURE, EXIT_SUCCESS, PROFILE
-from .logs import logger
+from mal_organizer.cli import exit_session, get_parsed_args
+from mal_organizer.client import MalClient
+from mal_organizer.consts import DEBUG, EXIT_FAILURE, EXIT_SUCCESS, PROFILE
+from mal_organizer.logs import logger
 
 
-def main(argv: Namespace = None):
+def main() -> None:
     """
     Main function
     """
+    install(show_locals=DEBUG)
     logger.info("Start of session")
-    config = load_config(argv)
+    args: Namespace = get_parsed_args()
 
-    client = MalClient()
-    try:
-        data_file = client.get_file()
-    except ValueError as e:
-        print(e)
+    client: MalClient = MalClient()
+
+    if not args.command:
+        print("No command provided")
         exit_session(EXIT_FAILURE)
 
-    anime_list = client.validate_file(data_file)
+    if args.command == "status":
+        anime: MyAnimeListStatus | None = client.get_anime_status(args.name)
+        print(anime)
+    elif args.command == "search":
+        anime = client.search_anime(args.name)
+        print(anime)
+    elif args.command == "update":
+        client.update_anime_status(args.name, args.status)
+        anime = client.search_anime(args.name)
+        print(anime)
+    elif args.command == "update-collection":
+        anime_list: list[dict[str, str]] = [
+            {"name": "Cowboy Bebop", "status": "completed"},
+            {"name": "Berserk", "status": "completed"},
+        ]
 
-    client.update_collection_of_animes(anime_list)
-    # client.update_anime_status(anime_name="Yofukashi no Uta", anime_status="plan_to_watch")
+        client.update_collection_of_animes(anime_list)
+        for anime in anime_list:
+            anime_data: Any = client.search_anime(anime["name"])
+            if anime_data.status != "completed":
+                print(f"Anime '{anime['name']}' couldn't be updated")
+    elif args.command == "update-from-file":
+        data_file: Path = Path(args.data_file).resolve()
+        with open(data_file, "r", encoding="utf-8") as f:
+            anime_list = json.load(f)
+        client.update_collection_of_animes(args.data_file)
 
-    if client.animes_not_updated:
-        print("Animes that couldn't be updated: ")
-        for a in client.animes_not_updated:
-            print(a)
+        if client.animes_not_updated:
+            print("Animes that couldn't be updated: ")
+            for a in client.animes_not_updated:
+                print(a)
 
     exit_session(EXIT_SUCCESS)
 
 
 if __name__ == "__main__":
-    args = get_parsed_args()
     # Enable rich error formatting in debug mode
-    install(show_locals=DEBUG)
     if DEBUG:
         print("[yellow]Debug mode is enabled[/]")
     if PROFILE:
         import cProfile
 
         print("[yellow]Profiling is enabled[/]")
-        cProfile.run("main(args)")
+        cProfile.run("main()")
     else:
-        main(args)
+        main()
